@@ -1,0 +1,298 @@
+// To Doリストモジュール
+const Todo = {
+  ITEMS_PATH: 'todo/items',
+  CATEGORIES_PATH: 'todo/categories',
+  items: {},
+  customItems: [],
+  customCategories: [],
+  deletedDefaultItems: [],
+  deletedDefaultCategories: [],
+  pendingCategorySelection: null,
+
+  defaultCategories: [
+    { id: 'before_departure', name: '出発前', icon: '✈️' },
+    { id: 'during_trip', name: '旅行中', icon: '🌴' },
+    { id: 'after_return', name: '帰国後', icon: '🏠' }
+  ],
+
+  defaultItems: {
+    before_departure: [
+      { id: 'todo_passport_expiry', name: 'パスポートの有効期限確認' },
+      { id: 'todo_insurance', name: '海外旅行保険加入' },
+      { id: 'todo_hotel_confirmation', name: 'ホテル予約確認' },
+      { id: 'todo_rental_car', name: 'レンタカー予約' }
+    ],
+    during_trip: [
+      { id: 'todo_diamond_head', name: 'ダイヤモンドヘッド登山' },
+      { id: 'todo_alamoana', name: 'アラモアナでショッピング' },
+      { id: 'todo_north_shore', name: 'ノースショアツアー' }
+    ],
+    after_return: [
+      { id: 'todo_souvenirs', name: 'お土産配る' },
+      { id: 'todo_photos', name: '写真整理' },
+      { id: 'todo_trip_report', name: '旅行記作成' }
+    ]
+  },
+
+  async init() {
+    await this.fetchInitialData();
+    this.setupRealtimeListeners();
+    this.render();
+    this.bindEvents();
+  },
+
+  async fetchInitialData() {
+    const [categoriesData, itemsData] = await Promise.all([
+      FirebaseDB.get(this.CATEGORIES_PATH),
+      FirebaseDB.get(this.ITEMS_PATH)
+    ]);
+    this.handleCategoriesData(categoriesData);
+    this.handleItemsData(itemsData);
+  },
+
+  setupRealtimeListeners() {
+    FirebaseDB.onValue(this.CATEGORIES_PATH, (data) => {
+      this.handleCategoriesData(data);
+      this.render();
+    });
+    FirebaseDB.onValue(this.ITEMS_PATH, (data) => {
+      this.handleItemsData(data);
+      this.render();
+    });
+  },
+
+  handleCategoriesData(data) {
+    const snapshot = data || {};
+    this.customCategories = Array.isArray(snapshot.customCategories) ? [...snapshot.customCategories] : [];
+    this.deletedDefaultCategories = Array.isArray(snapshot.deletedDefaultCategories)
+      ? [...snapshot.deletedDefaultCategories]
+      : [];
+  },
+
+  handleItemsData(data) {
+    const snapshot = data || {};
+    this.items = snapshot.items && typeof snapshot.items === 'object' ? { ...snapshot.items } : {};
+    this.customItems = Array.isArray(snapshot.customItems) ? [...snapshot.customItems] : [];
+    this.deletedDefaultItems = Array.isArray(snapshot.deletedDefaultItems)
+      ? [...snapshot.deletedDefaultItems]
+      : [];
+    this.ensureDefaultItems();
+  },
+
+  ensureDefaultItems() {
+    this.getActiveDefaultCategories().forEach(cat => {
+      (this.defaultItems[cat.id] || []).forEach(item => {
+        if (!(item.id in this.items)) {
+          this.items[item.id] = false;
+        }
+      });
+    });
+  },
+
+  getActiveDefaultCategories() {
+    return this.defaultCategories.filter(
+      cat => !this.deletedDefaultCategories.includes(cat.id)
+    );
+  },
+
+  persistItems() {
+    FirebaseDB.save(this.ITEMS_PATH, {
+      items: this.items,
+      customItems: this.customItems,
+      deletedDefaultItems: this.deletedDefaultItems
+    });
+  },
+
+  persistCategories() {
+    FirebaseDB.save(this.CATEGORIES_PATH, {
+      customCategories: this.customCategories,
+      deletedDefaultCategories: this.deletedDefaultCategories
+    });
+  },
+
+  getCategories() {
+    return [...this.getActiveDefaultCategories(), ...this.customCategories];
+  },
+
+  isDefaultCategory(catId) {
+    return this.defaultCategories.some(cat => cat.id === catId);
+  },
+
+  addItem(name, category) {
+    const id = 'todo_custom_' + Date.now();
+    const categories = this.getCategories();
+    const targetCategory = category || (categories.length ? categories[0].id : '');
+    if (!targetCategory) return;
+
+    this.customItems.push({ id, name, category: targetCategory });
+    this.items[id] = false;
+    this.persistItems();
+    this.render();
+  },
+
+  addCategory(name) {
+    const id = 'todo_cat_' + Date.now();
+    this.customCategories.push({ id, name, icon: '📝' });
+    this.persistCategories();
+    this.pendingCategorySelection = id;
+    this.render();
+  },
+
+  deleteItem(id) {
+    if (!id) return;
+    if (id.startsWith('todo_custom_')) {
+      this.customItems = this.customItems.filter(item => item.id !== id);
+    } else if (!this.deletedDefaultItems.includes(id)) {
+      this.deletedDefaultItems.push(id);
+    }
+    delete this.items[id];
+    this.persistItems();
+    this.render();
+  },
+
+  deleteCategory(catId) {
+    if (!catId) return;
+
+    const items = this.getItemsForCategory(catId);
+    items.forEach(item => {
+      delete this.items[item.id];
+      if (this.isDefaultCategory(catId) && item.id && !this.deletedDefaultItems.includes(item.id)) {
+        this.deletedDefaultItems.push(item.id);
+      }
+    });
+
+    this.customItems = this.customItems.filter(item => item.category !== catId);
+
+    const isDefault = this.isDefaultCategory(catId);
+    if (isDefault) {
+      if (!this.deletedDefaultCategories.includes(catId)) {
+        this.deletedDefaultCategories.push(catId);
+      }
+    } else {
+      this.customCategories = this.customCategories.filter(cat => cat.id !== catId);
+    }
+
+    this.persistItems();
+    this.persistCategories();
+    this.render();
+  },
+
+  toggleItem(id) {
+    if (!id) return;
+    this.items[id] = !this.items[id];
+    this.persistItems();
+    this.updateItemUI(id);
+  },
+
+  updateItemUI(id) {
+    const checkbox = document.querySelector(`#todo-container input[data-id="${id}"]`);
+    if (checkbox) {
+      checkbox.checked = this.items[id];
+      checkbox.closest('.todo-item')?.classList.toggle('checked', !!this.items[id]);
+    }
+  },
+
+  getItemsForCategory(catId) {
+    const defaultItems = (this.defaultItems[catId] || []).filter(
+      item => !this.deletedDefaultItems.includes(item.id)
+    );
+    const customItems = this.customItems.filter(item => item.category === catId);
+    return [...defaultItems, ...customItems];
+  },
+
+  render() {
+    const container = document.getElementById('todo-container');
+    if (!container) return;
+
+    const html = this.getCategories().map(cat => {
+      const items = this.getItemsForCategory(cat.id);
+      const itemsHtml = items.map(item => `
+        <div class="todo-item ${this.items[item.id] ? 'checked' : ''}">
+          <label>
+            <input type="checkbox" data-id="${item.id}" ${this.items[item.id] ? 'checked' : ''}>
+            ${item.name}
+          </label>
+          <button type="button" class="delete-item-btn" data-id="${item.id}">×</button>
+        </div>
+      `).join('');
+
+      const deleteButton = `<button type="button" class="delete-category-btn" data-category="${cat.id}">削除</button>`;
+      return `
+        <div class="todo-category">
+          <div class="todo-category-title">
+            ${cat.icon} ${cat.name}
+            ${deleteButton}
+          </div>
+          ${itemsHtml}
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = html;
+    this.updateCategorySelect(this.pendingCategorySelection);
+    this.pendingCategorySelection = null;
+  },
+
+  updateCategorySelect(preferredCategoryId) {
+    const select = document.getElementById('todo-category');
+    if (!select) return;
+    const categories = this.getCategories();
+    const currentValue = select.value;
+    select.innerHTML = categories
+      .map(cat => `<option value="${cat.id}">${cat.icon} ${cat.name}</option>`)
+      .join('');
+    const fallback = categories[0]?.id || '';
+    let selected = preferredCategoryId || currentValue || fallback;
+    if (!categories.some(cat => cat.id === selected)) selected = fallback;
+    if (selected) select.value = selected;
+  },
+
+  bindEvents() {
+    document.getElementById('todo-container')?.addEventListener('change', (e) => {
+      if (e.target.type === 'checkbox' && e.target.dataset.id) {
+        this.toggleItem(e.target.dataset.id);
+      }
+    });
+
+    document.getElementById('todo-container')?.addEventListener('click', (e) => {
+      if (e.target.classList.contains('delete-item-btn')) {
+        this.deleteItem(e.target.dataset.id);
+      }
+      if (e.target.classList.contains('delete-category-btn')) {
+        this.deleteCategory(e.target.dataset.category);
+      }
+    });
+
+    const addForm = document.getElementById('todo-add-form');
+    if (addForm) {
+      addForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const name = addForm.itemName.value.trim();
+        const category = addForm.category?.value;
+        if (name) {
+          this.addItem(name, category);
+          addForm.reset();
+          if (category && addForm.category) {
+            addForm.category.value = category;
+          }
+        }
+        return false;
+      });
+    }
+
+    const categoryForm = document.getElementById('todo-category-form');
+    if (categoryForm) {
+      categoryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const name = categoryForm.categoryName.value.trim();
+        if (name) {
+          this.addCategory(name);
+          categoryForm.reset();
+        }
+        return false;
+      });
+    }
+  }
+};

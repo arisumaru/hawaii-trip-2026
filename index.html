@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;500;600;700&family=Pacifico&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>Hawaii trip 2026</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="container">
+    <div class="header-main">
+      <hgroup>
+        <h1 id="trip-title" class="clickable-title" data-tab="basic">Hawaii trip 2026</h1>
+        <p id="countdown">出発まであと--日</p>
+        <p id="local-time">ホノルル現地時間: --:--</p>
+      </hgroup>
+      <nav class="top-tabs">
+        <button class="top-tab" data-tab="expense">費用管理</button>
+        <button class="top-tab" data-tab="todo">To Do</button>
+        <button class="top-tab" data-tab="checklist">持ち物リスト</button>
+        <button class="top-tab" data-tab="places">訪問地</button>
+        <button class="top-tab" data-tab="emergency">緊急連絡先</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 基本情報タブ -->
+    <div id="tab-basic" class="tab-content active">
+      <!-- フライト情報 & 天気 -->
+      <div class="grid">
+        <!-- フライト情報 -->
+        <article>
+          <header>🛫  フライト情報</header>
+          <div class="grid">
+            <div>
+              <h4>往路</h4>
+              <table>
+                <tr><th>日付</th><td id="flight-out-date">--</td></tr>
+                <tr><th>便名</th><td id="flight-out-number">--</td></tr>
+                <tr><th>出発</th><td id="flight-out-departure">--</td></tr>
+                <tr><th>到着</th><td id="flight-out-arrival">--</td></tr>
+              </table>
+            </div>
+            <div>
+              <h4>復路</h4>
+              <table>
+                <tr><th>日付</th><td id="flight-return-date">--</td></tr>
+                <tr><th>便名</th><td id="flight-return-number">--</td></tr>
+                <tr><th>出発</th><td id="flight-return-departure">--</td></tr>
+                <tr><th>到着</th><td id="flight-return-arrival">--</td></tr>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <!-- 天気予報 -->
+        <article>
+          <header>🌤️  <span id="weather-location-name">ホノルル</span>の天気予報</header>
+          <div class="weather-location-tabs">
+            <div class="location-btns">
+              <button id="btn-honolulu" class="location-btn active">ホノルル</button>
+              <button id="btn-koolina" class="location-btn">コオリナ</button>
+            </div>
+            <button id="refresh-weather" class="outline small">更新</button>
+          </div>
+          <div id="weather-container" class="weather-grid">
+            <p>読み込み中...</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- スケジュール -->
+      <article>
+        <header>📅  スケジュール</header>
+        <nav id="schedule-tabs">
+          <!-- JSで生成 -->
+        </nav>
+        <div id="schedule-content">
+          <!-- JSで生成 -->
+        </div>
+      </article>
+
+    </div>
+
+    <!-- 費用管理タブ -->
+    <div id="tab-expense" class="tab-content">
+      <article>
+        <header>💰  費用管理</header>
+        <div class="budget-summary">
+          <div>
+            <small>合計</small>
+            <p id="budget-spent">¥0</p>
+          </div>
+        </div>
+        <form id="expense-form">
+        <div class="grid expense-form-grid">
+          <input type="text" name="item" placeholder="項目" required>
+          <input type="number" name="amount" placeholder="金額" required>
+          <div class="currency-btns">
+            <span class="currency-btn active" data-currency="jpy">円</span>
+            <span class="currency-btn" data-currency="usd">ドル</span>
+          </div>
+          <select name="category" id="expense-category">
+            <!-- JSで生成 -->
+          </select>
+          <button type="submit">追加</button>
+        </div>
+        </form>
+        <div class="add-category-section">
+          <form id="expense-category-form" class="category-add-form">
+            <input type="text" name="categoryName" placeholder="新しいカテゴリを追加" required>
+            <button type="submit">追加</button>
+          </form>
+        </div>
+        <table id="expense-list">
+          <thead>
+            <tr><th>項目</th><th>カテゴリ</th><th>金額</th><th>メモ</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        </article>
+      </div>
+
+    <!-- To Doタブ -->
+    <div id="tab-todo" class="tab-content">
+      <article>
+        <header>📝  To Do</header>
+        <form id="todo-add-form">
+          <div class="grid todo-form-grid">
+            <input type="text" name="itemName" placeholder="To Doを追加" required>
+            <select name="category" id="todo-category" aria-label="カテゴリ選択">
+              <!-- JSで生成 -->
+            </select>
+            <button type="submit">追加</button>
+          </div>
+        </form>
+        <div class="add-category-section">
+          <form id="todo-category-form" class="category-add-form">
+            <input type="text" name="categoryName" placeholder="新しいカテゴリを追加" required>
+            <button type="submit">追加</button>
+          </form>
+        </div>
+        <div id="todo-container">
+          <!-- JSで生成 -->
+        </div>
+      </article>
+    </div>
+
+    <!-- 持ち物リストタブ -->
+    <div id="tab-checklist" class="tab-content">
+      <article>
+        <header>🧳  持ち物チェックリスト</header>
+        <form id="checklist-add-form">
+          <div class="grid checklist-form-grid">
+            <input type="text" name="itemName" placeholder="持ち物を追加" required>
+            <select name="category" id="checklist-category" aria-label="カテゴリ選択">
+              <!-- JSで生成 -->
+            </select>
+            <button type="submit">追加</button>
+          </div>
+        </form>
+        <div class="add-category-section">
+          <form id="checklist-category-form" class="category-add-form">
+            <input type="text" name="categoryName" placeholder="新しいカテゴリを追加" required>
+            <button type="submit">追加</button>
+          </form>
+        </div>
+        <div id="checklist-container">
+          <!-- JSで生成 -->
+        </div>
+      </article>
+    </div>
+
+    <!-- 訪問地タブ -->
+    <div id="tab-places" class="tab-content">
+      <article>
+        <header>🍽️  おすすめレストラン・スポット</header>
+
+        <!-- エリア切り替え -->
+        <div class="area-filter">
+          <div class="area-btns">
+            <button class="area-btn active" data-area="all">すべて</button>
+            <button class="area-btn" data-area="koolina">コオリナ</button>
+            <button class="area-btn" data-area="waikiki">ワイキキ</button>
+          </div>
+          <button id="add-place-btn" class="add-place-btn">+ 追加</button>
+        </div>
+
+        <!-- 追加ダイアログ -->
+        <dialog id="add-place-dialog">
+          <article>
+            <header>
+              <button aria-label="Close" rel="prev" id="close-place-dialog"></button>
+              <h3 id="place-dialog-title">お店・スポットを追加</h3>
+            </header>
+            <form id="add-place-form">
+              <input type="hidden" name="editId" value="">
+              <label>
+                Google Maps URL
+                <input type="url" name="mapUrl" placeholder="https://maps.google.com/..." required>
+              </label>
+              <label>
+                店名
+                <input type="text" name="placeName" placeholder="店名を入力" required>
+              </label>
+              <div class="grid">
+                <label>
+                  エリア
+                  <select name="area" required>
+                    <option value="koolina">コオリナ</option>
+                    <option value="waikiki">ワイキキ</option>
+                  </select>
+                </label>
+                <label>
+                  カテゴリ
+                  <select name="category" required>
+                    <option value="🏨ホテル">🏨ホテル</option>
+                    <option value="🍽️高級">🍽️高級</option>
+                    <option value="🍴カジュアル">🍴カジュアル</option>
+                    <option value="🥡テイクアウト">🥡テイクアウト</option>
+                    <option value="ビーチ">🏖️ビーチ</option>
+                    <option value="観光">📍観光</option>
+                    <option value="ショッピング">🛍️ショッピング</option>
+                  </select>
+                </label>
+              </div>
+              <label>
+                予算（任意）
+                <input type="text" name="budget" placeholder="例: $30-50/人">
+              </label>
+              <div class="image-drop-zone" id="image-drop-zone">
+                <input type="file" id="image-file-input" name="image" accept="image/*" hidden>
+                <div class="drop-zone-content" id="drop-zone-content">
+                  <span class="drop-zone-icon">📷</span>
+                  <span class="drop-zone-text">画像をドラッグ&ドロップ<br>またはクリックして選択</span>
+                </div>
+                <div class="drop-zone-preview" id="image-preview" hidden>
+                  <img id="preview-image" src="" alt="プレビュー">
+                  <button type="button" class="remove-image-btn" id="remove-image-btn" title="画像を削除">✕</button>
+                </div>
+              </div>
+              <footer>
+                <button type="submit" id="place-dialog-submit">追加する</button>
+              </footer>
+            </form>
+          </article>
+        </dialog>
+
+        <!-- マップ -->
+        <div class="places-map-container">
+          <div id="places-map"></div>
+        </div>
+
+        <!-- カテゴリフィルター -->
+        <div class="category-filter">
+          <button class="cat-filter-btn active" data-cat="all">すべて</button>
+          <button class="cat-filter-btn" data-cat="hotel">🏨ホテル</button>
+          <button class="cat-filter-btn" data-cat="spot">📍観光</button>
+          <button class="cat-filter-btn" data-cat="fine">🍽️高級</button>
+          <button class="cat-filter-btn" data-cat="casual">🍴カジュアル</button>
+          <button class="cat-filter-btn" data-cat="takeout">🥡テイクアウト</button>
+        </div>
+
+        <!-- 店舗カードグリッド -->
+        <div id="places-grid" class="places-grid">
+          <!-- JSで生成 -->
+        </div>
+      </article>
+    </div>
+
+    <div id="tab-emergency" class="tab-content">
+      <article>
+        <header>🆘  緊急連絡先</header>
+        <form id="emergency-add-form">
+          <div class="grid emergency-form-grid">
+            <input type="text" name="contactName" placeholder="名称" required>
+            <input type="tel" name="contactPhone" placeholder="電話番号" required>
+            <input type="text" name="contactNote" placeholder="備考（任意）">
+            <button type="submit">追加</button>
+          </div>
+        </form>
+        <div id="emergency-container">
+          <!-- JSで生成 -->
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>Last updated: <span id="last-updated">--</span></small>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/budget.js"></script>
+  <script src="js/todo.js"></script>
+  <script src="js/checklist.js"></script>
+  <script src="js/schedule.js"></script>
+  <script src="js/places.js"></script>
+  <script src="js/emergency.js"></script>
+</body>
+</html>

@@ -1,0 +1,1604 @@
+/* ハワイ旅行管理サイト - カスタムスタイル */
+
+:root {
+  --hawaii-primary: #5aabda;
+  --hawaii-secondary: #ff6b6b;
+  --hawaii-accent: #ffd93d;
+  --hawaii-green: #6bcb77;
+}
+
+/* ベース調整 */
+body {
+  font-family: 'Zen Kaku Gothic New', 'Lexend Deca', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  background-image: url('../images/keyvisual-slide-default_2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* コンテナ幅調整 */
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+.top-tabs {
+  display: inline-flex;
+  align-items: stretch;
+  padding: 3px;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 25px;
+  overflow: hidden;
+  gap: 0;
+}
+
+.top-tab {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  transition: background 0.2s, color 0.2s;
+  text-align: center;
+  white-space: nowrap;
+  position: static;
+  text-shadow: none;
+  line-height: 1;
+}
+
+.top-tab:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.top-tab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.top-tab.active {
+  color: #fff;
+  font-weight: 600;
+  background: var(--hawaii-primary);
+}
+
+/* タブコンテンツ */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ヘッダー */
+header.container {
+  padding-top: 1.3rem;
+  padding-bottom: 0;
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0;
+}
+
+.header-main hgroup {
+  flex-shrink: 0;
+}
+
+header hgroup h1 {
+  color: #fff;
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.clickable-title {
+  cursor: pointer;
+}
+
+.clickable-title:hover {
+  opacity: 0.8;
+}
+
+header hgroup p {
+  color: #fff;
+  font-size: 0.75rem !important;
+  margin-top: 0.15rem;
+  margin-right: 0;
+  margin-bottom: 0.1rem;
+  margin-left: 0;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+#local-time {
+  position: absolute;
+  top: 0.5rem;
+  right: 1.5rem;
+  margin: 0;
+}
+
+#local-time::before {
+  content: "🕐 ";
+}
+
+/* article カード */
+article {
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 12px;
+}
+
+article > header {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+article > footer {
+  margin-top: 0.5rem;
+  padding-top: 0.3rem;
+}
+
+/* グリッド調整 */
+.grid {
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* テーブル共通 - 見切れ対策 */
+table {
+  width: 100%;
+  font-size: 0.75rem;
+  overflow-x: auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  table {
+    display: table;
+  }
+}
+
+table th, table td {
+  padding: 0.35rem 0.5rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  table th, table td {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* フライト情報 */
+article .grid h4 {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  color: var(--hawaii-primary);
+}
+
+/* フライト情報の見出しとテーブル揃え */
+article .grid > div > h4 {
+  margin-left: 0.5rem;
+}
+
+/* フライト情報テーブルのフォントサイズ */
+article .grid > div > table {
+  font-size: 0.7rem;
+  margin-bottom: 0;
+}
+
+article .grid > div > table tr:last-child td,
+article .grid > div > table tr:last-child th {
+  border-bottom: none;
+}
+
+/* 天気切り替えタブ - ピル型デザイン */
+.weather-location-tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.location-btns {
+  display: inline-flex !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #f0f0f0 !important;
+  border-radius: 25px !important;
+  overflow: hidden !important;
+  gap: 0 !important;
+}
+
+.location-btn {
+  display: flex !important;
+  align-items: center !important;
+  padding: 6px 12px !important;
+  margin: 0 !important;
+  border-radius: 25px !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 0.65rem !important;
+  font-weight: 500 !important;
+  color: #999 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s !important;
+}
+
+.location-btn.active {
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+}
+
+.location-btn:hover:not(.active) {
+  color: #666 !important;
+}
+
+/* 天気グリッド */
+.weather-grid {
+  display: flex;
+  gap: 0.5rem;
+  text-align: center;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.weather-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.weather-card {
+  padding: 0.4rem 0.3rem;
+  border-radius: 6px;
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-muted-border-color);
+  min-width: 55px;
+  flex-shrink: 0;
+}
+
+.weather-date {
+  font-size: 0.6rem;
+  color: var(--pico-muted-color);
+  margin-bottom: 0.1rem;
+}
+
+.weather-icon {
+  font-size: 1.4rem;
+  margin: 0.1rem 0;
+}
+
+.weather-temp {
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.weather-rain {
+  font-size: 0.55rem;
+  color: var(--pico-muted-color);
+  margin-top: 0.1rem;
+}
+
+#refresh-weather {
+  font-size: 0.65rem !important;
+  padding: 0.2rem 0.4rem !important;
+  margin: 0 !important;
+}
+
+/* 予算サマリー */
+.budget-summary > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background: var(--pico-card-background-color);
+}
+
+.budget-summary small {
+  font-size: 0.7rem;
+  color: var(--pico-muted-color);
+}
+
+.budget-summary p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .budget-summary p {
+    font-size: 1.5rem;
+  }
+}
+
+#budget-progress {
+  margin: 1rem 0;
+  width: 100%;
+}
+
+/* 予算フォーム */
+#expense-form {
+  margin-top: 0.75rem;
+}
+
+.expense-form-grid {
+  grid-template-columns: 1fr 1fr auto auto auto !important;
+  gap: 0.4rem !important;
+  margin-bottom: 0.5rem;
+}
+
+.currency-btns {
+  display: inline-flex !important;
+  align-items: center !important;
+  background: #e8e8e8 !important;
+  border-radius: 20px !important;
+  padding: 3px !important;
+  margin: 0 !important;
+  gap: 2px !important;
+  height: 1.8rem !important;
+  box-sizing: border-box !important;
+}
+
+.currency-btns .currency-btn {
+  padding: 0 12px;
+  font-size: 0.65rem;
+  font-family: inherit;
+  background: transparent;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: background 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.currency-btns .currency-btn.active {
+  background: var(--hawaii-primary);
+  color: #fff;
+}
+
+.currency-btns .currency-btn:not(.active) {
+  background: transparent;
+  color: #999;
+}
+
+.currency-btns .currency-btn:hover:not(.active) {
+  color: #666;
+}
+
+#expense-form input,
+#expense-form select,
+#expense-form button {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+#expense-form select {
+  min-width: 100px;
+}
+
+#expense-form button {
+  min-width: 60px;
+  width: 60px;
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+#expense-form input::placeholder {
+  color: #ccc;
+}
+
+#schedule-tabs {
+  margin: 0;
+  padding: 0;
+}
+
+#schedule-tabs ul {
+  display: flex !important;
+  align-items: stretch !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 0.8rem 0 !important;
+  background: #f0f0f0 !important;
+  border-radius: 25px !important;
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+#schedule-tabs li {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex: 1 !important;
+}
+
+#schedule-tabs a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 0 !important;
+  margin: 0 !important;
+  border-radius: 25px !important;
+  background: transparent !important;
+  text-decoration: none !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  color: #999 !important;
+  line-height: 1 !important;
+  transition: background 0.2s, color 0.2s !important;
+  width: 100% !important;
+}
+
+#schedule-tabs a.active {
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+}
+
+#schedule-tabs a:hover:not(.active) {
+  color: #666 !important;
+}
+
+.schedule-day {
+  display: none;
+}
+
+.schedule-day.active {
+  display: block;
+}
+
+.schedule-day h4 {
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
+  margin-left: 0.5rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.schedule-date {
+  font-weight: 700;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.schedule-title {
+  background: #000;
+  color: #fff;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* スケジュールテーブル */
+.schedule-day table th {
+  color: var(--hawaii-primary);
+  border-bottom: none;
+}
+
+.schedule-day table {
+  font-size: 0.7rem;
+}
+
+.schedule-day table td {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.schedule-day table th,
+.schedule-day table td {
+  padding-right: 0.5rem;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.schedule-day table td:first-child {
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.schedule-day table th:nth-child(1),
+.schedule-day table td:nth-child(1) {
+  width: 60px;
+  white-space: nowrap;
+}
+
+.schedule-day table th:nth-child(2),
+.schedule-day table td:nth-child(2) {
+  width: auto;
+  white-space: nowrap;
+}
+
+.schedule-day table th:nth-child(3),
+.schedule-day table td:nth-child(3) {
+  width: auto;
+  white-space: nowrap;
+}
+
+.schedule-day table th:nth-child(4),
+.schedule-day table td:nth-child(4) {
+  width: auto;
+  min-width: 200px;
+}
+
+.schedule-day .note-input {
+  width: 100%;
+  padding: 0.15rem 0.3rem;
+  font-size: 0.7rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 4px;
+  background: transparent;
+  margin: 0;
+  resize: vertical;
+  min-height: 1.5em;
+  font-family: inherit;
+}
+
+.schedule-day .note-input:focus {
+  outline: none;
+  border-color: var(--hawaii-primary);
+}
+
+/* チェックリスト追加フォーム */
+#checklist-add-form {
+  margin-bottom: 0.3rem;
+}
+
+.checklist-form-grid {
+  grid-template-columns: 1fr auto auto !important;
+  gap: 0.4rem !important;
+}
+
+#checklist-add-form input,
+#checklist-add-form button {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+#checklist-add-form select {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  min-width: 140px !important;
+}
+
+#checklist-add-form input {
+  min-width: 100px;
+}
+
+#checklist-add-form button {
+  min-width: 60px;
+  width: 60px;
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+#checklist-add-form input::placeholder {
+  color: #ccc;
+}
+
+#checklist-container {
+  margin-top: 0.3rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+#checklist-container .checklist-category {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+}
+
+#checklist-container .checklist-category-title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.1rem 0 !important;
+  margin: 0 0 0.5rem 0 !important;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+#checklist-container .delete-category-btn {
+  background: none;
+  border: none;
+  color: #a6a6a6;
+  cursor: pointer;
+  font-size: 0.6rem;
+  padding: 0;
+  margin: 0 0 0 auto;
+  line-height: 1;
+  transition: color 0.2s;
+  align-self: center;
+}
+
+#checklist-container .delete-category-btn:hover {
+  color: #777;
+}
+
+#checklist-container .checklist-item {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.15rem 0 !important;
+  margin: 0 !important;
+  font-size: 0.7rem !important;
+  line-height: 1 !important;
+  gap: 0.2rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#checklist-container .checklist-item input[type="checkbox"] {
+  margin: 0 0.3rem 0 0 !important;
+  padding: 0 !important;
+  width: 15px !important;
+  height: 15px !important;
+}
+
+#checklist-container .checklist-item label {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline !important;
+  line-height: 1 !important;
+}
+
+#checklist-container .checklist-item.checked label {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+#checklist-container .delete-item-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--hawaii-secondary) !important;
+  cursor: pointer !important;
+  font-size: 0.7rem !important;
+  padding: 0 0.2rem !important;
+  margin: 0 0 0 auto !important;
+  opacity: 0.6;
+  line-height: 1 !important;
+}
+
+#checklist-container .delete-item-btn:hover {
+  opacity: 1;
+}
+
+/* チェックリスト進捗 */
+#checklist-progress {
+  font-weight: bold;
+  font-size: 0.65rem;
+}
+
+#checklist-bar {
+  margin: 0.2rem 0 0.3rem 0;
+  width: 100%;
+  height: 6px;
+}
+
+/* To Doリスト追加フォーム */
+#todo-add-form {
+  margin-bottom: 0.3rem;
+}
+
+.todo-form-grid {
+  grid-template-columns: 1fr auto auto !important;
+  gap: 0.4rem !important;
+}
+
+#todo-add-form input,
+#todo-add-form button {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+#todo-add-form select {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  min-width: 140px !important;
+}
+
+#todo-add-form input {
+  min-width: 100px;
+}
+
+#todo-add-form button {
+  min-width: 60px;
+  width: 60px;
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+#todo-add-form input::placeholder {
+  color: #ccc;
+}
+
+#todo-container {
+  margin-top: 0.3rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+#todo-container .todo-category {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+}
+
+#todo-container .todo-category-title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.1rem 0 !important;
+  margin: 0 0 0.5rem 0 !important;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+#todo-container .delete-category-btn {
+  background: none;
+  border: none;
+  color: #a6a6a6;
+  cursor: pointer;
+  font-size: 0.6rem;
+  padding: 0;
+  margin: 0 0 0 auto;
+  line-height: 1;
+  transition: color 0.2s;
+  align-self: center;
+}
+
+#todo-container .delete-category-btn:hover {
+  color: #777;
+}
+
+#todo-container .todo-item {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.15rem 0 !important;
+  margin: 0 !important;
+  font-size: 0.7rem !important;
+  line-height: 1 !important;
+  gap: 0.2rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#todo-container .todo-item input[type="checkbox"] {
+  margin: 0 0.3rem 0 0 !important;
+  padding: 0 !important;
+  width: 15px !important;
+  height: 15px !important;
+}
+
+#todo-container .todo-item label {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline !important;
+  line-height: 1 !important;
+}
+
+#todo-container .todo-item.checked label {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+#todo-container .delete-item-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--hawaii-secondary) !important;
+  cursor: pointer !important;
+  font-size: 0.7rem !important;
+  padding: 0 0.2rem !important;
+  margin: 0 0 0 auto !important;
+  opacity: 0.6;
+  line-height: 1 !important;
+}
+
+#todo-container .delete-item-btn:hover {
+  opacity: 1;
+}
+
+/* 緊急連絡先 */
+#emergency-table th {
+  font-weight: normal;
+  text-align: left;
+  width: 40%;
+}
+
+#emergency-table a {
+  font-weight: bold;
+  color: var(--hawaii-secondary);
+}
+
+#emergency-table small {
+  color: var(--pico-muted-color);
+}
+
+/* マップ */
+#map-iframe {
+  width: 100%;
+  min-height: 300px;
+}
+
+/* 訪問予定地リスト */
+#places-list {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#places-list > li.place-category-group {
+  margin-bottom: 0.8rem;
+}
+
+#places-list > li.place-category-group > strong {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--hawaii-primary);
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+#places-list > li.place-category-group > ul {
+  padding-left: 0.5rem;
+  margin: 0;
+  list-style: none;
+}
+
+#places-list > li.place-category-group > ul > li {
+  padding: 0.25rem 0;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#places-list .place-map-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+#places-list .place-map-link:hover {
+  color: var(--hawaii-primary);
+}
+
+#places-list .place-budget {
+  background: #f0f0f0;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+  font-size: 0.6rem;
+  color: #666;
+}
+
+#places-list .place-url {
+  font-size: 0.65rem;
+  text-decoration: none;
+}
+
+/* ボタン調整 */
+button.small, .outline.small {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* 支出履歴 */
+#expense-list {
+  font-size: 0.7rem;
+}
+
+#expense-list th {
+  color: var(--hawaii-primary);
+  border-bottom: none;
+}
+
+#expense-list td:last-child {
+  text-align: right;
+}
+
+#expense-list .note-input {
+  width: 100%;
+  padding: 0.15rem 0.3rem;
+  font-size: 0.7rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 4px;
+  background: transparent;
+  margin: 0;
+  resize: vertical;
+  min-height: 1.5em;
+  font-family: inherit;
+}
+
+#expense-list .note-input:focus {
+  outline: none;
+  border-color: var(--hawaii-primary);
+}
+
+#expense-list .delete-btn {
+  background: var(--hawaii-secondary);
+  color: white;
+  border: none;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.6rem;
+}
+
+/* details/summary */
+details {
+  margin-top: 0.6rem;
+}
+
+details summary {
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+/* カテゴリ追加UI */
+.add-category-section {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  padding-bottom: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.category-add-form {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.category-add-form input,
+.category-add-form button {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.category-add-form input {
+  flex: 1;
+  min-width: 100px;
+}
+
+.category-add-form button {
+  min-width: 60px;
+  width: 60px;
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.category-add-form input::placeholder {
+  color: #ccc;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+}
+
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--pico-muted-border-color);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+}
+
+.delete-cat-btn {
+  background: none;
+  border: none;
+  color: var(--hawaii-secondary);
+  cursor: pointer;
+  font-size: 0.6rem;
+  padding: 0 0.15rem;
+  margin-left: 0.25rem;
+}
+
+/* フッター */
+footer.container {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--pico-muted-color);
+  font-size: 0.85rem;
+}
+
+/* スクロール対策 */
+main.container {
+  overflow-x: hidden;
+}
+
+/* ========== 訪問地・レストラン ========== */
+
+/* エリアフィルター */
+.area-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.area-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.area-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 20px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.area-btn.active {
+  background: var(--hawaii-primary);
+  color: #fff;
+  border-color: var(--hawaii-primary);
+}
+
+.area-btn:hover:not(.active) {
+  border-color: var(--hawaii-primary);
+  color: var(--hawaii-primary);
+}
+
+/* 追加ボタン */
+.add-place-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 1px solid var(--hawaii-accent);
+  border-radius: 20px;
+  background: #fff;
+  color: var(--hawaii-accent);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-place-btn:hover {
+  background: var(--hawaii-accent);
+  color: #fff;
+}
+
+/* 追加ダイアログ */
+#add-place-dialog {
+  max-width: 500px;
+}
+
+#add-place-dialog article {
+  margin: 0;
+}
+
+#add-place-dialog header {
+  padding: 1rem 1.5rem;
+}
+
+#add-place-dialog h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+#add-place-dialog form {
+  margin: 0;
+}
+
+#add-place-dialog footer {
+  padding: 0;
+  margin-top: 1rem;
+}
+
+#add-place-dialog footer button {
+  width: 100%;
+  margin: 0;
+}
+
+/* 画像ドロップゾーン */
+.image-drop-zone {
+  margin-bottom: 1rem;
+  border: 2px dashed var(--pico-muted-border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafafa;
+  position: relative;
+}
+
+.image-drop-zone:hover {
+  border-color: var(--hawaii-primary);
+  background: #f0f8ff;
+}
+
+.image-drop-zone.drag-over {
+  border-color: var(--hawaii-primary);
+  background: #e6f3ff;
+  transform: scale(1.02);
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drop-zone-icon {
+  font-size: 2rem;
+}
+
+.drop-zone-text {
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.drop-zone-preview {
+  position: relative;
+  display: inline-block;
+}
+
+.drop-zone-preview img {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: var(--hawaii-secondary);
+  color: #fff;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.remove-image-btn:hover {
+  transform: scale(1.1);
+}
+
+/* マップコンテナ */
+.places-map-container {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+#places-map {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  z-index: 1;
+  background: #f0f0f0;
+}
+
+/* Leafletタイル読み込み時の修正 */
+.leaflet-container {
+  font-family: inherit;
+  background: #e0e0e0;
+}
+
+.leaflet-tile-pane {
+  z-index: 1;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  border-radius: 4px !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a,
+.leaflet-control-zoom a:link,
+.leaflet-control-zoom a:visited {
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  background: #fff !important;
+  color: #333 !important;
+  text-decoration: none !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+  border-bottom: 1px solid #ddd !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #f4f4f4 !important;
+  color: #333 !important;
+}
+
+.leaflet-control-zoom-in {
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+}
+
+.leaflet-control-zoom-out {
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  border-bottom: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px;
+}
+
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* カテゴリフィルター */
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.cat-filter-btn {
+  padding: 0.3rem 0.8rem;
+  font-size: 0.65rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 15px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cat-filter-btn.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.cat-filter-btn:hover:not(.active) {
+  border-color: #333;
+}
+
+/* カードグリッド */
+.places-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.8rem;
+}
+
+.place-card {
+  background: #fff;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.place-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.place-card-image {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.place-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-card-category {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-size: 0.55rem;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+}
+
+.place-card-edit {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.place-card-edit:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.place-card-body {
+  padding: 0.6rem 0.8rem 0.8rem;
+}
+
+.place-card-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem 0;
+  color: #333;
+  line-height: 1.3;
+}
+
+.place-card-info {
+  margin-bottom: 0.4rem;
+}
+
+.place-card-budget {
+  font-size: 0.6rem;
+  color: var(--hawaii-primary);
+  font-weight: 500;
+}
+
+.place-card-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.place-card-map,
+.place-card-link {
+  font-size: 0.55rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.place-card-map {
+  background: var(--hawaii-primary);
+  color: #fff;
+}
+
+.place-card-link {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.place-card-map:hover,
+.place-card-link:hover {
+  opacity: 0.8;
+}
+
+.no-results {
+  text-align: center;
+  color: #999;
+  font-size: 0.8rem;
+  padding: 2rem;
+}
+
+/* ========== 緊急連絡先 ========== */
+
+/* 追加フォーム */
+#emergency-add-form {
+  margin-bottom: 1.5rem;
+}
+
+.emergency-form-grid {
+  grid-template-columns: 1fr 1fr 1fr auto !important;
+  gap: 0.8rem !important;
+}
+
+#emergency-add-form input,
+#emergency-add-form button {
+  margin-bottom: 0 !important;
+  font-size: 0.8rem !important;
+  padding: 0.5rem 0.8rem !important;
+  height: 2.4rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+#emergency-add-form input {
+  min-width: 100px;
+}
+
+#emergency-add-form input::placeholder {
+  color: #ccc;
+}
+
+#emergency-add-form button {
+  min-width: 80px;
+  width: 80px;
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+/* 連絡先リスト */
+#emergency-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.emergency-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0 0.5rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.emergency-item:last-child {
+  border-bottom: none;
+}
+
+.emergency-info {
+  display: grid;
+  grid-template-columns: 220px 150px 1fr;
+  align-items: center;
+  gap: 0 1.5rem;
+  flex: 1;
+}
+
+.emergency-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.emergency-phone {
+  color: var(--hawaii-primary);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.emergency-phone:hover {
+  text-decoration: underline;
+}
+
+.emergency-note {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+#emergency-container .delete-item-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--hawaii-secondary) !important;
+  cursor: pointer !important;
+  font-size: 1rem !important;
+  padding: 0.3rem 0.5rem !important;
+  opacity: 0.6;
+  line-height: 1 !important;
+}
+
+#emergency-container .delete-item-btn:hover {
+  opacity: 1;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .emergency-form-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .emergency-form-grid input:first-child {
+    grid-column: 1 / -1;
+  }
+}

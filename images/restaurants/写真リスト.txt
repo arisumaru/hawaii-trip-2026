@@ -1,0 +1,58 @@
+【写真が必要なお店リスト】
+
+ファイル名は以下の形式で保存してください：
+例）noe.jpg, marugame.jpg など
+
+==========================================
+■ コオリナエリア（8店舗）
+==========================================
+
+【高級】
+1. noe.jpg - Noe (Four Seasons)
+2. minas.jpg - Mina's Fish House
+3. amaama.jpg - AMA AMA (Disney Aulani)
+4. roys.jpg - Roy's Ko Olina
+
+【カジュアル】
+5. monkeypod.jpg - Monkeypod Kitchen
+6. longhis.jpg - Longhi's Ko Olina
+7. mekiko.jpg - Mekiko Cantina
+
+【テイクアウト】
+8. eggsnthings_ko.jpg - Eggs 'n Things Ko Olina
+
+==========================================
+■ ワイキキエリア（12店舗）
+==========================================
+
+【高級】
+9. michels.jpg - Michel's at the Colony Surf
+10. arancino.jpg - Arancino di Mare
+
+【カジュアル】
+11. tikis.jpg - Tiki's Grill & Bar
+12. lulus.jpg - Lulu's Waikiki
+13. cheesecake.jpg - Cheesecake Factory
+
+【テイクアウト】
+14. rainbow.jpg - Rainbow Drive-In
+15. marugame.jpg - Marugame Udon
+16. ono.jpg - Ono Seafood
+17. leonards.jpg - Leonard's Bakery
+18. steakshack.jpg - Steak Shack
+
+==========================================
+■ 観光スポット（4箇所）※任意
+==========================================
+
+19. waikiki.jpg - ワイキキビーチ
+20. diamondhead.jpg - ダイヤモンドヘッド
+21. alamoana.jpg - アラモアナセンター
+22. haleiwa.jpg - ハレイワタウン
+
+==========================================
+
+【推奨サイズ】
+- 横幅: 400px 程度
+- 縦横比: 16:9 または 4:3
+- 形式: JPG または PNG
