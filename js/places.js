@@ -174,8 +174,8 @@ const Places = {
             <div class="place-card-actions">
               <a href="${mapUrl}" target="_blank" class="place-card-map">📍 地図</a>
               ${urlHtml}
-              ${memoBtnHtml}
             </div>
+            ${memoBtnHtml}
           </div>
         </div>
       `;
