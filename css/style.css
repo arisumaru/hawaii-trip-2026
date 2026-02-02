@@ -1475,7 +1475,8 @@ main.container {
   font-size: 0.55rem;
   padding: 0.2rem 0.5rem;
   border-radius: 10px;
-  border: none;
+  border: none !important;
+  outline: none;
   background: #f0f0f0;
   color: #666;
   cursor: pointer;
@@ -1483,10 +1484,19 @@ main.container {
   margin-left: auto;
   flex-shrink: 0;
   white-space: nowrap;
+  line-height: 1.2;
+  box-shadow: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .place-card-memo-btn:hover {
   opacity: 0.8;
+}
+
+.place-card-memo-btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .place-card-map,
@@ -1498,6 +1508,9 @@ main.container {
   transition: opacity 0.2s;
   white-space: nowrap;
   flex-shrink: 0;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
 }
 
 .place-card-map {
