@@ -6,6 +6,7 @@ const Places = {
   markers: [],
   editingPlaceId: null,
   customImages: {},
+  customMemos: {},
   pendingImage: null,
   remoteCustomPlaceIds: new Set(),
 
@@ -149,7 +150,8 @@ const Places = {
       const mapUrl = `https://www.google.com/maps/search/?api=1&query=${searchQuery}`;
       const budgetHtml = place.budget ? `<span class="place-card-budget">${place.budget}</span>` : '';
       const urlHtml = place.url ? `<a href="${place.url}" target="_blank" class="place-card-link">公式サイト</a>` : '';
-      const memoBtnHtml = place.memo ? `<button class="place-card-memo-btn" type="button" data-id="${place.id}" data-memo="${encodeURIComponent(place.memo)}" aria-label="メモを表示">📝</button>` : '';
+      const memo = this.customMemos[place.id] || place.memo || '';
+      const memoBtnHtml = memo ? `<button class="place-card-memo-btn" type="button" data-id="${place.id}" data-memo="${encodeURIComponent(memo)}" aria-label="メモを表示">📝</button>` : '';
       let imgSrc;
       let imgStyle = '';
       if (this.customImages && this.customImages[place.id]) {
@@ -238,7 +240,7 @@ const Places = {
       form.querySelector('[name="category"]').value = place.category;
       form.querySelector('[name="budget"]').value = place.budget || '';
       if (memoField) {
-        memoField.value = place.memo || '';
+        memoField.value = this.customMemos[place.id] || place.memo || '';
       }
 
       const area = this.koolinaIds.includes(place.id) ? 'koolina' : 'waikiki';
@@ -417,8 +419,10 @@ const Places = {
     }
     if (memo) {
       place.memo = memo;
+      this.customMemos[editId] = memo;
     } else {
       delete place.memo;
+      delete this.customMemos[editId];
     }
 
     if (mapUrl) {
@@ -445,8 +449,10 @@ const Places = {
       if (!this.customImages) this.customImages = {};
       this.customImages[editId] = this.pendingImage;
       this.pendingImage = null;
-      this.saveCustomPlaces();
     }
+
+    // メモと画像を保存
+    this.saveCustomPlaces();
 
     this.render();
     this.updateMarkers();
@@ -655,15 +661,18 @@ const Places = {
 
     const customKoolinaIds = this.koolinaIds.filter(id => id.startsWith('custom_'));
     const images = this.customImages || {};
+    const memos = this.customMemos || {};
 
     FirebaseDB.save('places/custom', placeMap);
     FirebaseDB.save('places/koolinaIds', customKoolinaIds);
     FirebaseDB.save('places/images', images);
+    FirebaseDB.save('places/memos', memos);
   },
 
   // Firebaseからカスタム情報を同期
   loadCustomPlaces() {
     this.customImages = {};
+    this.customMemos = {};
     this.remoteCustomPlaceIds = new Set();
 
     FirebaseDB.onValue('places/custom', (data) => {
@@ -673,6 +682,10 @@ const Places = {
       this.customImages = data || {};
       this.render();
       this.updateMarkers();
+    });
+    FirebaseDB.onValue('places/memos', (data) => {
+      this.customMemos = data || {};
+      this.render();
     });
     FirebaseDB.onValue('places/koolinaIds', (data) => {
       this.applyFirebaseKoolinaIds(data);
