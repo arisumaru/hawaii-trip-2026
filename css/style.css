@@ -1461,7 +1461,7 @@ main.container {
 .place-card-actions {
   display: flex;
   gap: 0.4rem;
-  flex-wrap: wrap;
+  align-items: center;
   margin-top: auto;
 }
 
@@ -1475,6 +1475,8 @@ main.container {
   cursor: pointer;
   transition: all 0.2s;
   margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .place-card-memo-btn:hover {
@@ -1489,6 +1491,8 @@ main.container {
   border-radius: 10px;
   text-decoration: none;
   transition: opacity 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .place-card-map {
