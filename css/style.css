@@ -1367,6 +1367,11 @@ main.container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 0.8rem;
+  align-items: stretch;
+}
+
+.places-grid > .place-card {
+  height: 100%;
 }
 
 .place-card {
@@ -1450,6 +1455,7 @@ main.container {
 
 .place-card-info {
   margin-bottom: 0.4rem;
+  min-height: 1rem;
 }
 
 .place-card-budget {
