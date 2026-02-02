@@ -1466,26 +1466,19 @@ main.container {
 }
 
 .place-card-memo-btn {
-  font-size: 0.7rem;
-  width: 22px;
-  height: 22px;
+  font-size: 0.8rem;
   padding: 0;
-  border-radius: 50%;
-  border: 1.5px solid #f5a623;
+  border: none;
   background: transparent;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: opacity 0.2s;
   margin-left: auto;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   line-height: 1;
 }
 
 .place-card-memo-btn:hover {
-  background: #f5a623;
-  color: #fff;
+  opacity: 0.7;
 }
 
 .place-card-map,
