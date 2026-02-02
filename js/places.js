@@ -149,6 +149,7 @@ const Places = {
       const mapUrl = `https://www.google.com/maps/search/?api=1&query=${searchQuery}`;
       const budgetHtml = place.budget ? `<span class="place-card-budget">${place.budget}</span>` : '';
       const urlHtml = place.url ? `<a href="${place.url}" target="_blank" class="place-card-link">公式サイト</a>` : '';
+      const memoBtnHtml = place.memo ? `<button class="place-card-memo-btn" type="button" data-id="${place.id}" data-memo="${encodeURIComponent(place.memo)}" aria-label="メモを表示">📝</button>` : '';
       let imgSrc;
       let imgStyle = '';
       if (this.customImages && this.customImages[place.id]) {
@@ -173,6 +174,7 @@ const Places = {
             <div class="place-card-actions">
               <a href="${mapUrl}" target="_blank" class="place-card-map">📍 地図</a>
               ${urlHtml}
+              ${memoBtnHtml}
             </div>
           </div>
         </div>
@@ -214,9 +216,13 @@ const Places = {
     const form = document.getElementById('add-place-form');
     const title = document.getElementById('place-dialog-title');
     const submitBtn = document.getElementById('place-dialog-submit');
+    const memoField = form.querySelector('[name="memo"]');
 
     form.reset();
     form.querySelector('[name="editId"]').value = '';
+    if (memoField) {
+      memoField.value = '';
+    }
 
     if (placeId) {
       this.editingPlaceId = placeId;
@@ -231,6 +237,9 @@ const Places = {
       form.querySelector('[name="placeName"]').value = place.name;
       form.querySelector('[name="category"]').value = place.category;
       form.querySelector('[name="budget"]').value = place.budget || '';
+      if (memoField) {
+        memoField.value = place.memo || '';
+      }
 
       const area = this.koolinaIds.includes(place.id) ? 'koolina' : 'waikiki';
       form.querySelector('[name="area"]').value = area;
@@ -311,6 +320,14 @@ const Places = {
     const grid = document.getElementById('places-grid');
     if (grid) {
       grid.addEventListener('click', (e) => {
+        const memoBtn = e.target.closest('.place-card-memo-btn');
+        if (memoBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const memo = memoBtn.dataset.memo ? decodeURIComponent(memoBtn.dataset.memo) : '';
+          this.showMemoPopup(memo);
+          return;
+        }
         const editBtn = e.target.closest('.place-card-edit');
         if (editBtn) {
           e.preventDefault();
@@ -330,6 +347,7 @@ const Places = {
     const area = formData.get('area');
     const category = formData.get('category');
     const budget = formData.get('budget');
+    const memo = (formData.get('memo') || '').trim();
 
     // 座標を抽出（Google Maps URLから）
     const coords = this.extractCoords(mapUrl);
@@ -349,6 +367,9 @@ const Places = {
 
     if (budget) {
       newPlace.budget = budget;
+    }
+    if (memo) {
+      newPlace.memo = memo;
     }
 
     // コオリナエリアの場合はkoolinaIdsに追加
@@ -383,6 +404,7 @@ const Places = {
     const area = formData.get('area');
     const category = formData.get('category');
     const budget = formData.get('budget');
+    const memo = (formData.get('memo') || '').trim();
 
     place.name = name;
     place.category = category;
@@ -392,6 +414,11 @@ const Places = {
       place.budget = budget;
     } else {
       delete place.budget;
+    }
+    if (memo) {
+      place.memo = memo;
+    } else {
+      delete place.memo;
     }
 
     if (mapUrl) {
@@ -584,6 +611,38 @@ const Places = {
     }
 
     return { lat, lng };
+  },
+
+  showMemoPopup(memo) {
+    if (!memo) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'memo-popup-overlay';
+    overlay.innerHTML = `
+      <div class="memo-popup">
+        <header class="memo-popup-header">メモ</header>
+        <div class="memo-popup-content"></div>
+        <button type="button" class="memo-popup-close">閉じる</button>
+      </div>
+    `;
+    const content = overlay.querySelector('.memo-popup-content');
+    if (content) {
+      content.textContent = memo;
+    }
+
+    const removeOverlay = () => {
+      if (overlay.parentNode) {
+        overlay.parentNode.removeChild(overlay);
+      }
+    };
+
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay || event.target.closest('.memo-popup-close')) {
+        removeOverlay();
+      }
+    });
+
+    document.body.appendChild(overlay);
   },
 
   // カスタム場所をFirebaseへ保存

@@ -1464,6 +1464,21 @@ main.container {
   margin-top: auto;
 }
 
+.place-card-memo-btn {
+  font-size: 0.55rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  border: none;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.place-card-memo-btn:hover {
+  opacity: 0.85;
+}
+
 .place-card-map,
 .place-card-link {
   font-size: 0.55rem;
@@ -1493,6 +1508,49 @@ main.container {
   color: #999;
   font-size: 0.8rem;
   padding: 2rem;
+}
+
+.memo-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 1rem;
+}
+
+.memo-popup {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 320px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+}
+
+.memo-popup-header {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.memo-popup-content {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: pre-line;
+  margin-bottom: 0.8rem;
+}
+
+.memo-popup-close {
+  border: none;
+  background: var(--hawaii-primary);
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.85rem;
 }
 
 /* ========== 緊急連絡先 ========== */
