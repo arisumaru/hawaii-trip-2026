@@ -159,8 +159,8 @@ const DATA = {
 
   places: [
     // 宿泊ホテル
-    { id: "marriott_koolina", name: "Marriott's Ko Olina Beach Club", category: "🏨ホテル", lat: 21.3362, lng: -158.1230, url: "https://www.marriott.com/en-us/hotels/hnlko-marriotts-ko-olina-beach-club/overview/" },
-    { id: "marriott_waikiki", name: "Waikiki Beach Marriott Resort & Spa", category: "🏨ホテル", lat: 21.2720, lng: -157.8235, url: "https://www.marriott.com/en-us/hotels/hnlmc-waikiki-beach-marriott-resort-and-spa/overview/" },
+    { id: "marriott_koolina", name: "Marriott's Ko Olina Beach Club", category: "🏨 ホテル", lat: 21.3362, lng: -158.1230, url: "https://www.marriott.com/en-us/hotels/hnlko-marriotts-ko-olina-beach-club/overview/" },
+    { id: "marriott_waikiki", name: "Waikiki Beach Marriott Resort & Spa", category: "🏨 ホテル", lat: 21.2720, lng: -157.8235, url: "https://www.marriott.com/en-us/hotels/hnlmc-waikiki-beach-marriott-resort-and-spa/overview/" },
 
     // 観光スポット
     { id: "waikiki", name: "ワイキキビーチ", category: "ビーチ", lat: 21.2766, lng: -157.8278 },
@@ -169,34 +169,34 @@ const DATA = {
     { id: "haleiwa", name: "ハレイワタウン", category: "観光", lat: 21.5934, lng: -158.1031 },
 
     // コオリナ - 高級レストラン
-    { id: "noe", name: "Noe (Four Seasons)", category: "🍽️高級", lat: 21.3389, lng: -158.1231, budget: "$100-150/人", url: "https://www.fourseasons.com/oahu/dining/restaurants/noe/" },
-    { id: "minas", name: "Mina's Fish House", category: "🍽️高級", lat: 21.3389, lng: -158.1231, budget: "$80-150/人", url: "https://www.fourseasons.com/oahu/dining/restaurants/minas_fish_house/" },
-    { id: "amaama", name: "AMA AMA (Disney Aulani)", category: "🍽️高級", lat: 21.3396, lng: -158.1275, budget: "$130-150/人", url: "https://www.disneyaulani.com/dining/table-service/ama-ama-restaurant/" },
-    { id: "roys", name: "Roy's Ko Olina", category: "🍽️高級", lat: 21.3342, lng: -158.1189, budget: "$50-80/人", url: "https://www.royyamaguchi.com/roys-ko-olina" },
+    { id: "noe", name: "Noe (Four Seasons)", category: "🍽️ 高級", lat: 21.3389, lng: -158.1231, budget: "$100-150/人", url: "https://www.fourseasons.com/oahu/dining/restaurants/noe/" },
+    { id: "minas", name: "Mina's Fish House", category: "🍽️ 高級", lat: 21.3389, lng: -158.1231, budget: "$80-150/人", url: "https://www.fourseasons.com/oahu/dining/restaurants/minas_fish_house/" },
+    { id: "amaama", name: "AMA AMA (Disney Aulani)", category: "🍽️ 高級", lat: 21.3396, lng: -158.1275, budget: "$130-150/人", url: "https://www.disneyaulani.com/dining/table-service/ama-ama-restaurant/" },
+    { id: "roys", name: "Roy's Ko Olina", category: "🍽️ 高級", lat: 21.3342, lng: -158.1189, budget: "$50-80/人", url: "https://www.royyamaguchi.com/roys-ko-olina" },
 
     // コオリナ - カジュアル
-    { id: "monkeypod", name: "Monkeypod Kitchen", category: "🍴カジュアル", lat: 21.3362, lng: -158.1214, budget: "$30-50/人", url: "https://www.monkeypodkitchen.com/" },
-    { id: "longhis", name: "Longhi's Ko Olina", category: "🍴カジュアル", lat: 21.3378, lng: -158.1253, budget: "$30-50/人", url: "https://www.longhis.com/koolina-restaurant" },
-    { id: "mekiko", name: "Mekiko Cantina", category: "🍴カジュアル", lat: 21.3362, lng: -158.1214, budget: "$25-40/人", url: "https://koolinashops.com/dining/" },
+    { id: "monkeypod", name: "Monkeypod Kitchen", category: "🍴 カジュアル", lat: 21.3362, lng: -158.1214, budget: "$30-50/人", url: "https://www.monkeypodkitchen.com/" },
+    { id: "longhis", name: "Longhi's Ko Olina", category: "🍴 カジュアル", lat: 21.3378, lng: -158.1253, budget: "$30-50/人", url: "https://www.longhis.com/koolina-restaurant" },
+    { id: "mekiko", name: "Mekiko Cantina", category: "🍴 カジュアル", lat: 21.3362, lng: -158.1214, budget: "$25-40/人", url: "https://koolinashops.com/dining/" },
 
     // コオリナ - テイクアウト
-    { id: "eggsnthings_ko", name: "Eggs 'n Things Ko Olina", category: "🥡テイクアウト", lat: 21.3362, lng: -158.1214, budget: "$15-25/人", url: "https://eggsnthings.com/ko-olina-menu/" },
+    { id: "eggsnthings_ko", name: "Eggs 'n Things Ko Olina", category: "🥡 テイクアウト", lat: 21.3362, lng: -158.1214, budget: "$15-25/人", url: "https://eggsnthings.com/ko-olina-menu/" },
 
     // ワイキキ - 高級レストラン
-    { id: "michels", name: "Michel's at the Colony Surf", category: "🍽️高級", lat: 21.2625, lng: -157.8196, budget: "$130-180/人", url: "https://www.michelshawaii.com/" },
-    { id: "arancino", name: "Arancino di Mare", category: "🍽️高級", lat: 21.2733, lng: -157.8237, budget: "$50-80/人", url: "https://arancino-dimare.arancino.com/" },
+    { id: "michels", name: "Michel's at the Colony Surf", category: "🍽️ 高級", lat: 21.2625, lng: -157.8196, budget: "$130-180/人", url: "https://www.michelshawaii.com/" },
+    { id: "arancino", name: "Arancino di Mare", category: "🍽️ 高級", lat: 21.2733, lng: -157.8237, budget: "$50-80/人", url: "https://arancino-dimare.arancino.com/" },
 
     // ワイキキ - カジュアル
-    { id: "tikis", name: "Tiki's Grill & Bar", category: "🍴カジュアル", lat: 21.2742, lng: -157.8235, budget: "$30-50/人", url: "https://www.tikis.com/" },
-    { id: "lulus", name: "Lulu's Waikiki", category: "🍴カジュアル", lat: 21.2746, lng: -157.8230, budget: "$25-45/人", url: "https://www.luluswaikiki.com/" },
-    { id: "cheesecake", name: "Cheesecake Factory", category: "🍴カジュアル", lat: 21.2782, lng: -157.8295, budget: "$25-40/人", url: "https://www.thecheesecakefactory.com/" },
+    { id: "tikis", name: "Tiki's Grill & Bar", category: "🍴 カジュアル", lat: 21.2742, lng: -157.8235, budget: "$30-50/人", url: "https://www.tikis.com/" },
+    { id: "lulus", name: "Lulu's Waikiki", category: "🍴 カジュアル", lat: 21.2746, lng: -157.8230, budget: "$25-45/人", url: "https://www.luluswaikiki.com/" },
+    { id: "cheesecake", name: "Cheesecake Factory", category: "🍴 カジュアル", lat: 21.2782, lng: -157.8295, budget: "$25-40/人", url: "https://www.thecheesecakefactory.com/" },
 
     // ワイキキ - テイクアウト
-    { id: "rainbow", name: "Rainbow Drive-In", category: "🥡テイクアウト", lat: 21.2708, lng: -157.8139, budget: "$10-15/人", url: "https://www.rainbowdrivein.com/" },
-    { id: "marugame", name: "Marugame Udon", category: "🥡テイクアウト", lat: 21.2796, lng: -157.8266, budget: "$8-15/人", url: "https://www.marugameudon.com/locations/waikiki/" },
-    { id: "ono", name: "Ono Seafood", category: "🥡テイクアウト", lat: 21.2746, lng: -157.8145, budget: "$12-20/人", url: "https://www.yelp.com/biz/ono-seafood-honolulu" },
-    { id: "leonards", name: "Leonard's Bakery", category: "🥡テイクアウト", lat: 21.2757, lng: -157.8128, budget: "$2-10/人", url: "https://leonardshawaii.com/" },
-    { id: "steakshack", name: "Steak Shack", category: "🥡テイクアウト", lat: 21.2839, lng: -157.8369, budget: "$10以下/人", url: "" }
+    { id: "rainbow", name: "Rainbow Drive-In", category: "🥡 テイクアウト", lat: 21.2708, lng: -157.8139, budget: "$10-15/人", url: "https://www.rainbowdrivein.com/" },
+    { id: "marugame", name: "Marugame Udon", category: "🥡 テイクアウト", lat: 21.2796, lng: -157.8266, budget: "$8-15/人", url: "https://www.marugameudon.com/locations/waikiki/" },
+    { id: "ono", name: "Ono Seafood", category: "🥡 テイクアウト", lat: 21.2746, lng: -157.8145, budget: "$12-20/人", url: "https://www.yelp.com/biz/ono-seafood-honolulu" },
+    { id: "leonards", name: "Leonard's Bakery", category: "🥡 テイクアウト", lat: 21.2757, lng: -157.8128, budget: "$2-10/人", url: "https://leonardshawaii.com/" },
+    { id: "steakshack", name: "Steak Shack", category: "🥡 テイクアウト", lat: 21.2839, lng: -157.8369, budget: "$10以下/人", url: "" }
   ],
 
   emergencyContacts: [
