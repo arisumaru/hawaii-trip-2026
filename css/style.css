@@ -1375,6 +1375,8 @@ main.container {
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .place-card:hover {
@@ -1432,6 +1434,9 @@ main.container {
 
 .place-card-body {
   padding: 0.6rem 0.8rem 0.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .place-card-name {
@@ -1456,6 +1461,7 @@ main.container {
   display: flex;
   gap: 0.4rem;
   flex-wrap: wrap;
+  margin-top: auto;
 }
 
 .place-card-map,
