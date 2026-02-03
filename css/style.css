@@ -28,13 +28,27 @@ body {
 
 .top-tabs {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: stretch;
   padding: 3px;
   margin: 0;
   background: rgba(0, 0, 0, 0.35);
-  border-radius: 25px;
+  border-radius: 15px;
   overflow: hidden;
-  gap: 0;
+  gap: 3px;
+}
+
+@media (max-width: 600px) {
+  .top-tabs {
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+  }
+
+  .top-tab {
+    font-size: 0.6rem;
+    padding: 0.35rem 0.6rem;
+  }
 }
 
 .top-tab {
