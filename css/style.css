@@ -45,6 +45,11 @@ body {
 
   .header-main hgroup {
     text-align: left;
+    width: 100%;
+  }
+
+  .header-main hgroup h1 {
+    text-align: left;
   }
 
   .header-main nav {
