@@ -112,37 +112,20 @@ const Schedule = {
           ? `custom-${event.id}`
           : `default-${this.currentDay}-${event.defaultIndex}`;
         const noteValue = this.getNote(noteKey);
-        const timeCell = isCustom
-          ? `<td><input type="time" class="schedule-inline-input" data-field="time" data-event-id="${this.escapeHtml(event.id)}" value="${this.escapeHtml(event.time || '')}"></td>`
-          : `<td><strong>${this.escapeHtml(event.time)}</strong></td>`;
-        const titleCell = isCustom
-          ? `<td><input type="text" class="schedule-inline-input" data-field="title" data-event-id="${this.escapeHtml(event.id)}" value="${this.escapeHtml(event.title || '')}"></td>`
-          : `<td>${this.escapeHtml(event.title)}</td>`;
-        const locationCell = isCustom
-          ? `<td><input type="text" class="schedule-inline-input" data-field="location" data-event-id="${this.escapeHtml(event.id)}" value="${this.escapeHtml(event.location || '')}"></td>`
-          : `<td>${this.escapeHtml(event.location)}</td>`;
-        const noteCell = `
-          <td>
-            <textarea class="note-input" rows="1" data-note-key="${this.escapeHtml(noteKey)}">${this.escapeHtml(noteValue)}</textarea>
-          </td>
-        `;
         const deleteId = isCustom
           ? event.id
           : `default-${this.currentDay}-${event.defaultIndex}`;
-        const deleteButton = `
-          <td>
-            <button type="button" class="schedule-delete-btn" data-event-id="${this.escapeHtml(deleteId)}">
-              ×
-            </button>
-          </td>
-        `;
         return `
-          <tr data-source="${event.source}">
-            ${timeCell}
-            ${titleCell}
-            ${locationCell}
-            ${noteCell}
-            ${deleteButton}
+          <tr>
+            <td><strong>${this.escapeHtml(event.time)}</strong></td>
+            <td>${this.escapeHtml(event.title)}</td>
+            <td>${this.escapeHtml(event.location)}</td>
+            <td>
+              <textarea class="note-input" rows="1" data-note-key="${this.escapeHtml(noteKey)}">${this.escapeHtml(noteValue)}</textarea>
+            </td>
+            <td>
+              <button type="button" class="schedule-delete-btn" data-event-id="${this.escapeHtml(deleteId)}">×</button>
+            </td>
           </tr>
         `;
       }).join('')
@@ -233,26 +216,6 @@ const Schedule = {
     this.renderContent();
   },
 
-  updateEvent(day, eventId, field, value) {
-    if (!day || !eventId || !field) return;
-    const existing = this.customEvents[day] || [];
-    const updated = existing.map(evt => {
-      if (evt.id !== eventId) return evt;
-      return {
-        ...evt,
-        [field]: value,
-      };
-    });
-    this.customEvents = {
-      ...this.customEvents,
-      [day]: updated,
-    };
-    if (field === 'time') {
-      this.customEvents[day].sort((a, b) => (a.time || '').localeCompare(b.time || ''));
-    }
-    this.persistEvents();
-  },
-
   persistEvents() {
     const payload = {
       customEvents: this.customEvents,
@@ -307,12 +270,6 @@ const Schedule = {
       if (target.classList.contains('note-input')) {
         const key = target.dataset.noteKey;
         this.setNote(key, target.value);
-        return;
-      }
-      if (target.classList.contains('schedule-inline-input')) {
-        const eventId = target.dataset.eventId;
-        const field = target.dataset.field;
-        this.updateEvent(this.currentDay, eventId, field, target.value);
       }
     });
 
@@ -323,13 +280,6 @@ const Schedule = {
         this.deleteEvent(this.currentDay, eventId);
       }
     });
-
-    contentContainer?.addEventListener('blur', (e) => {
-      const target = e.target;
-      if (target.classList.contains('schedule-inline-input')) {
-        this.renderContent();
-      }
-    }, true);
   },
 
   switchDay(day) {
