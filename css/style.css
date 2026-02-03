@@ -208,10 +208,15 @@ article > footer {
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr !important;
+    gap: 0.75rem;
   }
 
   .flight-grid {
     grid-template-columns: 1fr 1fr !important;
+  }
+
+  article {
+    margin-bottom: 0.75rem;
   }
 }
 
