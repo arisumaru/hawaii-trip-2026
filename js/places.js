@@ -151,7 +151,7 @@ const Places = {
       const budgetHtml = place.budget ? `<span class="place-card-budget">${place.budget}</span>` : '';
       const urlHtml = place.url ? `<a href="${place.url}" target="_blank" class="place-card-link">公式サイト</a>` : '';
       const memo = this.customMemos[place.id] || place.memo || '';
-      const memoBtnHtml = memo ? `<button class="place-card-memo-btn" type="button" data-id="${place.id}" data-memo="${encodeURIComponent(memo)}">メモ</button>` : '';
+      const memoBtnHtml = memo ? `<button class="place-card-memo-btn" type="button" data-id="${place.id}" data-memo="${encodeURIComponent(memo)}">📝 メモ</button>` : '';
       let imgSrc;
       let imgStyle = '';
       if (this.customImages && this.customImages[place.id]) {
