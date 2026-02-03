@@ -530,6 +530,7 @@ article .grid > div > table tr:last-child th {
 .schedule-day table td {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
+  vertical-align: middle;
 }
 
 .schedule-day table th,
@@ -570,8 +571,9 @@ article .grid > div > table tr:last-child th {
 
 .schedule-day table th:nth-child(5),
 .schedule-day table td:nth-child(5) {
-  width: 60px;
+  width: 40px;
   text-align: center;
+  vertical-align: middle;
 }
 
 .schedule-inline-input {
@@ -599,13 +601,17 @@ article .grid > div > table tr:last-child th {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid var(--pico-muted-border-color);
   color: var(--hawaii-secondary);
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  font-size: 0.8rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
   cursor: pointer;
   line-height: 1;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
 }
 
 .schedule-delete-btn:hover {
