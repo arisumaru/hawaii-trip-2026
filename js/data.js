@@ -1,8 +1,8 @@
 const DATA = {
   trip: {
     title: "ハワイ旅行 2026",
-    startDate: "2026-02-15",
-    endDate: "2026-02-22",
+    startDate: "2026-02-26",
+    endDate: "2026-03-04",
     destination: {
       name: "ホノルル",
       timezone: "Pacific/Honolulu",
@@ -13,36 +13,36 @@ const DATA = {
 
   flights: {
     outbound: {
-      date: "2026-02-15",
-      flightNumber: "JL780",
-      airline: "JAL",
-      departure: { airport: "NRT", time: "21:00", terminal: "2" },
-      arrival: { airport: "HNL", time: "09:30", terminal: "2" }
+      date: "2026-02-26",
+      flightNumber: "NH186",
+      airline: "ANA",
+      departure: { airport: "HND", time: "21:55", terminal: "2" },
+      arrival: { airport: "HNL", time: "09:45", terminal: "2" }
     },
     return: {
-      date: "2026-02-22",
-      flightNumber: "JL781",
-      airline: "JAL",
-      departure: { airport: "HNL", time: "13:00", terminal: "2" },
-      arrival: { airport: "NRT", time: "18:00+1", terminal: "2" }
+      date: "2026-03-04",
+      flightNumber: "NH185",
+      airline: "ANA",
+      departure: { airport: "HNL", time: "12:55", terminal: "2" },
+      arrival: { airport: "HND", time: "17:20+1", terminal: "2" }
     }
   },
 
   schedule: [
     {
       day: 1,
-      date: "2026-02-15",
+      date: "2026-02-26",
       title: "出発・到着日",
       events: [
-        { time: "21:00", title: "成田空港出発", location: "成田国際空港", note: "JL780便" },
-        { time: "09:30", title: "ホノルル到着", location: "ダニエル・K・イノウエ国際空港", note: "同日着" },
+        { time: "21:55", title: "羽田空港出発", location: "羽田空港", note: "NH186便" },
+        { time: "09:45", title: "ホノルル到着", location: "ダニエル・K・イノウエ国際空港", note: "同日着" },
         { time: "12:00", title: "ホテルチェックイン", location: "ワイキキ", note: "" },
         { time: "14:00", title: "ワイキキビーチ散策", location: "ワイキキビーチ", note: "" }
       ]
     },
     {
       day: 2,
-      date: "2026-02-16",
+      date: "2026-02-27",
       title: "ダイヤモンドヘッド",
       events: [
         { time: "06:00", title: "ダイヤモンドヘッド登山", location: "ダイヤモンドヘッド", note: "早朝がおすすめ" },
@@ -53,7 +53,7 @@ const DATA = {
     },
     {
       day: 3,
-      date: "2026-02-17",
+      date: "2026-02-28",
       title: "ノースショア",
       events: [
         { time: "08:00", title: "ノースショアツアー出発", location: "ワイキキ", note: "ツアーバス" },
@@ -64,7 +64,7 @@ const DATA = {
     },
     {
       day: 4,
-      date: "2026-02-18",
+      date: "2026-03-01",
       title: "コオリナ",
       events: [
         { time: "09:00", title: "コオリナへ移動", location: "ワイキキ", note: "レンタカー" },
@@ -75,7 +75,7 @@ const DATA = {
     },
     {
       day: 5,
-      date: "2026-02-19",
+      date: "2026-03-02",
       title: "カイルア",
       events: [
         { time: "09:00", title: "カイルアへ移動", location: "ワイキキ", note: "" },
@@ -86,7 +86,7 @@ const DATA = {
     },
     {
       day: 6,
-      date: "2026-02-20",
+      date: "2026-03-03",
       title: "自由行動",
       events: [
         { time: "10:00", title: "ワイキキ散策", location: "ワイキキ", note: "" },
@@ -97,13 +97,13 @@ const DATA = {
     },
     {
       day: 7,
-      date: "2026-02-21",
+      date: "2026-03-04",
       title: "最終日・帰国",
       events: [
         { time: "09:00", title: "ホテルチェックアウト", location: "ワイキキ", note: "" },
         { time: "10:00", title: "空港へ移動", location: "", note: "" },
-        { time: "13:00", title: "ホノルル出発", location: "ダニエル・K・イノウエ国際空港", note: "JL781便" },
-        { time: "18:00", title: "成田到着", location: "成田国際空港", note: "翌日着" }
+        { time: "12:55", title: "ホノルル出発", location: "ダニエル・K・イノウエ国際空港", note: "NH185便" },
+        { time: "17:20", title: "羽田到着", location: "羽田空港", note: "翌日着" }
       ]
     }
   ],
