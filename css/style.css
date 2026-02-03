@@ -43,6 +43,10 @@ body {
     align-items: flex-start;
   }
 
+  .header-main hgroup {
+    text-align: left;
+  }
+
   .header-main nav {
     width: 100%;
     margin-top: 0.5rem;
@@ -50,15 +54,17 @@ body {
 
   .top-tabs {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-start;
-    border-radius: 12px;
+    border-radius: 10px;
     width: 100%;
+    padding: 2px;
   }
 
   .top-tab {
-    font-size: 0.65rem;
-    padding: 0.35rem 0.5rem;
+    font-size: 0.55rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 8px;
   }
 }
 
