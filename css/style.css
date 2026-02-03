@@ -523,6 +523,8 @@ article .grid > div > table tr:last-child th {
 
 .schedule-day table {
   font-size: 0.7rem;
+  table-layout: fixed;
+  width: 100%;
 }
 
 .schedule-day table td {
@@ -580,6 +582,11 @@ article .grid > div > table tr:last-child th {
   padding: 0.15rem 0.3rem;
   background: rgba(255, 255, 255, 0.7);
   transition: border 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.schedule-inline-input[type="time"] {
+  width: 90px;
 }
 
 .schedule-inline-input:focus {
