@@ -1467,24 +1467,17 @@ main.container {
 .place-card-actions {
   display: flex;
   gap: 0.4rem;
-  align-items: center;
+  align-items: flex-end;
   margin-top: auto;
 }
 
 .place-card-memo-btn {
-  font-size: 0.55rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 10px;
   border: none !important;
   outline: none;
   background: #f0f0f0;
   color: #666;
   cursor: pointer;
-  transition: opacity 0.2s;
   margin-left: auto;
-  flex-shrink: 0;
-  white-space: nowrap;
-  line-height: 1.2;
   box-shadow: none;
   -webkit-appearance: none;
   appearance: none;
@@ -1500,17 +1493,21 @@ main.container {
 }
 
 .place-card-map,
-.place-card-link {
+.place-card-link,
+.place-card-memo-btn {
   font-size: 0.55rem;
-  padding: 0.2rem 0.5rem;
+  padding: 0;
+  height: 24px;
+  padding-inline: 0.5rem;
   border-radius: 10px;
   text-decoration: none;
   transition: opacity 0.2s;
   white-space: nowrap;
   flex-shrink: 0;
-  line-height: 1.2;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .place-card-map {
