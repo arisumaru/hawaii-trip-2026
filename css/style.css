@@ -566,6 +566,81 @@ article .grid > div > table tr:last-child th {
   min-width: 200px;
 }
 
+.schedule-day table th:nth-child(5),
+.schedule-day table td:nth-child(5) {
+  width: 60px;
+  text-align: center;
+}
+
+.schedule-inline-input {
+  width: 100%;
+  font-size: 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0.15rem 0.3rem;
+  background: rgba(255, 255, 255, 0.7);
+  transition: border 0.2s, background 0.2s;
+}
+
+.schedule-inline-input:focus {
+  outline: none;
+  border-color: var(--hawaii-primary);
+  background: #fff;
+}
+
+.schedule-delete-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--pico-muted-border-color);
+  color: var(--hawaii-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.schedule-delete-btn:hover {
+  background: var(--hawaii-secondary);
+  color: #fff;
+  border-color: var(--hawaii-secondary);
+}
+
+.schedule-add-form {
+  margin-top: 0.75rem;
+}
+
+.schedule-form-grid {
+  grid-template-columns: auto 1fr 1fr auto !important;
+  gap: 0.4rem !important;
+}
+
+.schedule-add-form input,
+.schedule-add-form button {
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  padding: 0.25rem 0.4rem !important;
+  height: 1.8rem !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-add-form button {
+  background: var(--hawaii-primary);
+  color: #fff;
+  border: none;
+  min-width: 60px;
+}
+
+.schedule-add-form input::placeholder {
+  color: #ccc;
+}
+
+.schedule-add-form input {
+  min-width: 100px;
+}
+
 .schedule-day .note-input {
   width: 100%;
   padding: 0.15rem 0.3rem;

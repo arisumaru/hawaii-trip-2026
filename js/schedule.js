@@ -2,11 +2,16 @@
 const Schedule = {
   currentDay: 1,
   customNotes: {},
+  customEvents: {},
+  deletedDefaultEvents: {},
   NOTES_PATH: 'schedule/notes',
+  EVENTS_PATH: 'schedule/events',
   notesSnapshot: '',
+  eventsSnapshot: '',
 
   init() {
     this.watchNotes();
+    this.watchEvents();
     this.render();
     this.bindEvents();
   },
@@ -25,23 +30,26 @@ const Schedule = {
     });
   },
 
-  getNote(day, eventIndex) {
-    const key = `${day}-${eventIndex}`;
-    if (this.customNotes[key] !== undefined) {
-      return this.customNotes[key];
-    }
-    const dayData = DATA.schedule.find(d => d.day === day);
-    return dayData?.events[eventIndex]?.note || '';
-  },
-
-  setNote(day, eventIndex, note) {
-    const key = `${day}-${eventIndex}`;
-    this.customNotes = {
-      ...this.customNotes,
-      [key]: note,
+  watchEvents() {
+    const snapshot = data => {
+      const normalized = {
+        customEvents: {},
+        deletedDefaultEvents: {},
+        ...(data || {}),
+      };
+      const serialized = JSON.stringify(normalized);
+      if (serialized === this.eventsSnapshot) {
+        this.customEvents = normalized.customEvents || {};
+        this.deletedDefaultEvents = normalized.deletedDefaultEvents || {};
+        return;
+      }
+      this.eventsSnapshot = serialized;
+      this.customEvents = normalized.customEvents || {};
+      this.deletedDefaultEvents = normalized.deletedDefaultEvents || {};
+      this.renderContent();
     };
-    this.notesSnapshot = JSON.stringify(this.customNotes);
-    FirebaseDB.save(this.NOTES_PATH, this.customNotes);
+
+    FirebaseDB.onValue(this.EVENTS_PATH, snapshot);
   },
 
   formatDate(dateStr) {
@@ -72,6 +80,7 @@ const Schedule = {
 
   renderContent() {
     const contentContainer = document.getElementById('schedule-content');
+    if (!contentContainer) return;
     const dayData = DATA.schedule.find(d => d.day === this.currentDay);
 
     if (!dayData) {
@@ -79,23 +88,76 @@ const Schedule = {
       return;
     }
 
-    const eventsHtml = dayData.events.map((event, index) => {
-      const note = this.getNote(this.currentDay, index);
-      return `
-        <tr>
-          <td><strong>${event.time}</strong></td>
-          <td>${event.title}</td>
-          <td>${event.location}</td>
+    const deletedIndexes = new Set(this.deletedDefaultEvents[this.currentDay] || []);
+    const defaultEvents = dayData.events
+      .map((event, index) => ({ ...event, source: 'default', defaultIndex: index }))
+      .filter(item => !deletedIndexes.has(item.defaultIndex));
+
+    const customEvents = (this.customEvents[this.currentDay] || []).map(event => ({
+      ...event,
+      source: 'custom',
+    }));
+
+    const combinedEvents = [...defaultEvents, ...customEvents];
+    combinedEvents.sort((a, b) => {
+      const timeA = a.time || '';
+      const timeB = b.time || '';
+      return timeA.localeCompare(timeB);
+    });
+
+    const eventsHtml = combinedEvents.length
+      ? combinedEvents.map((event) => {
+        const isCustom = event.source === 'custom';
+        const noteKey = isCustom
+          ? `custom-${event.id}`
+          : `default-${this.currentDay}-${event.defaultIndex}`;
+        const noteValue = this.getNote(noteKey);
+        const timeCell = isCustom
+          ? `<td><input type="time" class="schedule-inline-input" data-field="time" data-event-id="${this.escapeHtml(event.id)}" value="${this.escapeHtml(event.time || '')}"></td>`
+          : `<td><strong>${this.escapeHtml(event.time)}</strong></td>`;
+        const titleCell = isCustom
+          ? `<td><input type="text" class="schedule-inline-input" data-field="title" data-event-id="${this.escapeHtml(event.id)}" value="${this.escapeHtml(event.title || '')}"></td>`
+          : `<td>${this.escapeHtml(event.title)}</td>`;
+        const locationCell = isCustom
+          ? `<td><input type="text" class="schedule-inline-input" data-field="location" data-event-id="${this.escapeHtml(event.id)}" value="${this.escapeHtml(event.location || '')}"></td>`
+          : `<td>${this.escapeHtml(event.location)}</td>`;
+        const noteCell = `
           <td>
-            <textarea class="note-input" data-day="${this.currentDay}" data-index="${index}" rows="1">${note}</textarea>
+            <textarea class="note-input" rows="1" data-note-key="${this.escapeHtml(noteKey)}">${this.escapeHtml(noteValue)}</textarea>
           </td>
+        `;
+        const deleteId = isCustom
+          ? event.id
+          : `default-${this.currentDay}-${event.defaultIndex}`;
+        const deleteButton = `
+          <td>
+            <button type="button" class="schedule-delete-btn" data-event-id="${this.escapeHtml(deleteId)}">
+              ×
+            </button>
+          </td>
+        `;
+        return `
+          <tr data-source="${event.source}">
+            ${timeCell}
+            ${titleCell}
+            ${locationCell}
+            ${noteCell}
+            ${deleteButton}
+          </tr>
+        `;
+      }).join('')
+      : `
+        <tr>
+          <td colspan="5" class="empty-row">予定はありません</td>
         </tr>
       `;
-    }).join('');
 
     contentContainer.innerHTML = `
       <div class="schedule-day active">
-        <h4><span class="schedule-date">${this.formatDate(dayData.date)}</span> <span class="schedule-title">${dayData.title}</span></h4>
+        <h4>
+          <span class="schedule-date">${this.formatDate(dayData.date)}</span>
+          <span class="schedule-title">${this.escapeHtml(dayData.title)}</span>
+        </h4>
         <table>
           <thead>
             <tr>
@@ -103,6 +165,7 @@ const Schedule = {
               <th>予定</th>
               <th>場所</th>
               <th>メモ</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -113,27 +176,164 @@ const Schedule = {
     `;
   },
 
-  switchDay(day) {
-    this.currentDay = day;
-    this.render();
+  getNote(key) {
+    if (!key) return '';
+    return this.customNotes[key] || '';
+  },
+
+  setNote(key, note) {
+    if (!key) return;
+    this.customNotes = {
+      ...this.customNotes,
+      [key]: note,
+    };
+    this.notesSnapshot = JSON.stringify(this.customNotes);
+    FirebaseDB.save(this.NOTES_PATH, this.customNotes);
+  },
+
+  addEvent(day, time, title, location) {
+    if (!day || !time || !title) return;
+    const newEvent = {
+      id: this.generateEventId(),
+      time,
+      title,
+      location: location || '',
+    };
+    const events = [...(this.customEvents[day] || []), newEvent];
+    events.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    this.customEvents = {
+      ...this.customEvents,
+      [day]: events,
+    };
+    this.persistEvents();
+    this.renderContent();
+  },
+
+  deleteEvent(day, eventId) {
+    if (!day || !eventId) return;
+    if (eventId.startsWith('default-')) {
+      const parts = eventId.split('-');
+      const index = parseInt(parts[2], 10);
+      if (Number.isNaN(index)) return;
+      const existing = this.deletedDefaultEvents[day] || [];
+      if (existing.includes(index)) return;
+      const updated = [...existing, index];
+      this.deletedDefaultEvents = {
+        ...this.deletedDefaultEvents,
+        [day]: updated,
+      };
+    } else {
+      const events = (this.customEvents[day] || []).filter(evt => evt.id !== eventId);
+      this.customEvents = {
+        ...this.customEvents,
+        [day]: events,
+      };
+    }
+    this.persistEvents();
+    this.renderContent();
+  },
+
+  updateEvent(day, eventId, field, value) {
+    if (!day || !eventId || !field) return;
+    const existing = this.customEvents[day] || [];
+    const updated = existing.map(evt => {
+      if (evt.id !== eventId) return evt;
+      return {
+        ...evt,
+        [field]: value,
+      };
+    });
+    this.customEvents = {
+      ...this.customEvents,
+      [day]: updated,
+    };
+    if (field === 'time') {
+      this.customEvents[day].sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    }
+    this.persistEvents();
+  },
+
+  persistEvents() {
+    const payload = {
+      customEvents: this.customEvents,
+      deletedDefaultEvents: this.deletedDefaultEvents,
+    };
+    const serialized = JSON.stringify(payload);
+    this.eventsSnapshot = serialized;
+    FirebaseDB.save(this.EVENTS_PATH, payload);
+  },
+
+  generateEventId() {
+    return `evt_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
+  },
+
+  escapeHtml(value) {
+    if (value === undefined || value === null) {
+      return '';
+    }
+    return value
+      .toString()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   },
 
   bindEvents() {
     document.getElementById('schedule-tabs')?.addEventListener('click', (e) => {
       e.preventDefault();
       if (e.target.tagName === 'A' && e.target.dataset.day) {
-        const day = parseInt(e.target.dataset.day);
+        const day = parseInt(e.target.dataset.day, 10);
         this.switchDay(day);
       }
     });
 
-    // メモ入力の保存
-    document.getElementById('schedule-content')?.addEventListener('input', (e) => {
-      if (e.target.classList.contains('note-input')) {
-        const day = parseInt(e.target.dataset.day);
-        const index = parseInt(e.target.dataset.index);
-        this.setNote(day, index, e.target.value);
+    document.getElementById('schedule-add-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const time = formData.get('time')?.toString().trim();
+      const title = formData.get('title')?.toString().trim();
+      const location = formData.get('location')?.toString().trim() || '';
+      if (!time || !title) return;
+      this.addEvent(this.currentDay, time, title, location);
+      form.reset();
+    });
+
+    const contentContainer = document.getElementById('schedule-content');
+    contentContainer?.addEventListener('input', (e) => {
+      const target = e.target;
+      if (target.classList.contains('note-input')) {
+        const key = target.dataset.noteKey;
+        this.setNote(key, target.value);
+        return;
+      }
+      if (target.classList.contains('schedule-inline-input')) {
+        const eventId = target.dataset.eventId;
+        const field = target.dataset.field;
+        this.updateEvent(this.currentDay, eventId, field, target.value);
       }
     });
-  }
+
+    contentContainer?.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target.classList.contains('schedule-delete-btn')) {
+        const eventId = target.dataset.eventId;
+        this.deleteEvent(this.currentDay, eventId);
+      }
+    });
+
+    contentContainer?.addEventListener('blur', (e) => {
+      const target = e.target;
+      if (target.classList.contains('schedule-inline-input')) {
+        this.renderContent();
+      }
+    }, true);
+  },
+
+  switchDay(day) {
+    this.currentDay = day;
+    this.render();
+  },
 };
