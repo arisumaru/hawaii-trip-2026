@@ -530,6 +530,7 @@ article .grid > div > table tr:last-child th {
 .schedule-day table td {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
+  vertical-align: middle;
 }
 
 .schedule-day table th,
