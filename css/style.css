@@ -1131,15 +1131,15 @@ main.container {
   font-weight: 700;
   border: 1px solid var(--hawaii-accent);
   border-radius: 20px;
-  background: #fff;
-  color: var(--hawaii-accent);
+  background: var(--hawaii-accent);
+  color: #fff;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .add-place-btn:hover {
-  background: var(--hawaii-accent);
-  color: #fff;
+  background: #fff;
+  color: var(--hawaii-accent);
 }
 
 /* 追加ダイアログ */
