@@ -605,8 +605,9 @@ article .grid > div > table tr:last-child th {
   border-radius: 999px;
   font-size: 0.8rem;
   cursor: pointer;
-  line-height: 1;
+  line-height: 28px;
   padding: 0;
+  vertical-align: middle;
 }
 
 .schedule-delete-btn:hover {
