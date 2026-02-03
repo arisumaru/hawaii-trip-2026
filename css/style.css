@@ -573,6 +573,7 @@ article .grid > div > table tr:last-child th {
 .schedule-day table td:nth-child(5) {
   width: 60px;
   text-align: center;
+  vertical-align: middle !important;
 }
 
 .schedule-inline-input {
