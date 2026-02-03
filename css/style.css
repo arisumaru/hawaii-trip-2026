@@ -209,6 +209,10 @@ article > footer {
   .grid {
     grid-template-columns: 1fr !important;
   }
+
+  .flight-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
 }
 
 /* テーブル共通 - 見切れ対策 */
