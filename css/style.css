@@ -1467,20 +1467,46 @@ main.container {
 .place-card-actions {
   display: flex;
   gap: 0.4rem;
-  align-items: flex-end;
+  align-items: center;
   margin-top: auto;
 }
 
-.place-card-memo-btn {
+.place-card-actions > * {
+  font-size: 0.55rem !important;
+  padding: 0.2rem 0.5rem !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  border-radius: 10px !important;
+  text-decoration: none !important;
+  transition: opacity 0.2s !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  line-height: 1.4 !important;
+  vertical-align: middle !important;
+  box-sizing: border-box !important;
   border: none !important;
-  outline: none;
-  background: #f0f0f0;
-  color: #666;
-  cursor: pointer;
-  margin-left: auto;
-  box-shadow: none;
-  -webkit-appearance: none;
-  appearance: none;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.place-card-map {
+  background: var(--hawaii-primary) !important;
+  color: #fff !important;
+}
+
+.place-card-link {
+  background: #f0f0f0 !important;
+  color: #666 !important;
+}
+
+.place-card-memo-btn {
+  background: #f0f0f0 !important;
+  color: #666 !important;
+  cursor: pointer !important;
+  margin-left: auto !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
 }
 
 .place-card-memo-btn:hover {
@@ -1488,36 +1514,8 @@ main.container {
 }
 
 .place-card-memo-btn:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.place-card-map,
-.place-card-link,
-.place-card-memo-btn {
-  font-size: 0.55rem;
-  padding: 0;
-  height: 24px;
-  padding-inline: 0.5rem;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-.place-card-map {
-  background: var(--hawaii-primary);
-  color: #fff;
-}
-
-.place-card-link {
-  background: #f0f0f0;
-  color: #666;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .place-card-map:hover,
