@@ -1,5 +1,85 @@
 /* ハワイ旅行管理サイト - カスタムスタイル */
 
+/* パスワード保護画面 */
+.password-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #5aabda 0%, #87ceeb 50%, #ffd93d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.password-screen.hidden {
+  display: none;
+}
+
+.password-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+}
+
+.password-box h2 {
+  margin: 0 0 0.5rem 0;
+  font-family: 'Pacifico', cursive;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.password-box p {
+  margin: 0 0 1.2rem 0;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.password-box input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.password-box input:focus {
+  outline: none;
+  border-color: #5aabda;
+}
+
+.password-box button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #5aabda;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.password-box button:hover {
+  background: #4a9bc8;
+}
+
+.password-error {
+  color: #ff6b6b !important;
+  font-size: 0.8rem !important;
+  margin-top: 0.8rem !important;
+  margin-bottom: 0 !important;
+  min-height: 1.2em;
+}
+
 :root {
   --hawaii-primary: #5aabda;
   --hawaii-secondary: #ff6b6b;
@@ -208,15 +288,25 @@ article > footer {
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr !important;
-    gap: 0.75rem;
+    gap: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .grid > article {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .grid > article:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  #tab-basic > .grid + article {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0 !important;
   }
 
   .flight-grid {
     grid-template-columns: 1fr 1fr !important;
-  }
-
-  article {
-    margin-bottom: 0.75rem;
   }
 }
 
@@ -696,6 +786,23 @@ article .grid > div > table tr:last-child th {
 
 .schedule-add-form input {
   min-width: 100px;
+}
+
+.schedule-add-form input[type="time"] {
+  position: relative;
+  padding-left: 1.5rem !important;
+  padding-right: 0.4rem !important;
+}
+
+.schedule-add-form input[type="time"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0.3rem;
+  right: auto;
+  cursor: pointer;
+}
+
+.schedule-add-form input[type="time"]::-webkit-datetime-edit {
+  margin-left: auto;
 }
 
 .schedule-day .note-input {
